@@ -1,0 +1,25 @@
+{
+  "labels": [
+    "Eat out",
+    "Rent",
+    "Groceries",
+    "Gas",
+    "Utilities",
+    "Subscriptions",
+    "Other"
+  ],
+  "datasets": [
+    {
+      "data": [30, 350, 90, 80, 175, 50, 35],
+      "backgroundColor": [
+        "#ffcd56",
+        "#ff6384",
+        "#36a2eb",
+        "#fd6b19",
+        "#00ff00",
+        "#0000ff",
+        "#ff00ff"
+      ]
+    }
+  ]
+}
