@@ -22,7 +22,8 @@
     "react-scripts": "^3.0.1",
     "sass": "^1.68.0",
     "source-map-loader": "^4.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.89.0"
   },
   "scripts": {
     "start": "set PORT=4200 && react-scripts start",
