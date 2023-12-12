@@ -230,8 +230,10 @@ app.post('/api/signup', async (req, res) => {
             password
         });
         const uid = user.uid;
+        console.log(uid)
         admin.auth().createCustomToken(uid)
             .then((token) => {
+                console.log(token)
                 db.collection('users').doc(token).set({
                     total: 0
                 })
