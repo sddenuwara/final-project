@@ -71,7 +71,7 @@ class ConfigurePage extends React.Component {
   configure = () => {
     const token = localStorage.getItem('jwt');
     const updatedBudget = this.state.budgetData;
-    axios.post('http://localhost:3000/api/budget/update', { token, updatedBudget})
+    axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/budget/update', { token, updatedBudget})
       .then(response => {
         if (response && response.data && response.data.success) {
           useNavigate('/dashboard')
@@ -81,7 +81,7 @@ class ConfigurePage extends React.Component {
 
   getBudget = () => {
     const token = localStorage.getItem('jwt');
-    axios.post('http://localhost:3000/api/budget/fetch/all', { token })
+    axios.post('http://monkfish-app-3ps63.ondigitalocean.appapi/budget/fetch/all', { token })
       .then(response => {
           this.setState({ budgetData: response.data });
           this.editBudgetData = response.data;
