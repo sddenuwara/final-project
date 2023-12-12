@@ -42,124 +42,135 @@ app.get('/hello', (req, res) => {
 });
 
 app.post('/api/budget/fetch', async (req, res) => {
-    // Extract JWT Token from request
-    const { token } = req.body;
+    try {
+            // Extract JWT Token from request
+        const { token } = req.body;
 
-    // Define Data Structures for All 3 Charts
-    const pieData = {
-        labels: [],
-        datasets: [{
-            data: [],
-            backgroundColor: []
-        }]
-    };
-
-    const lineData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        datasets: [
-            {
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                fill: false,
-                borderColor: '#3cba9f',
-                label: 'Money Spent'
-            },
-            {
+        // Define Data Structures for All 3 Charts
+        const pieData = {
+            labels: [],
+            datasets: [{
                 data: [],
-                fill: false,
-                borderColor: '#3bd3e',
-                label: 'Budget Goal'
-            }
-        ]
-    };
+                backgroundColor: []
+            }]
+        };
 
-    const barData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        datasets: []
-    }
+        const lineData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: [
+                {
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    fill: false,
+                    borderColor: '#3cba9f',
+                    label: 'Money Spent'
+                },
+                {
+                    data: [],
+                    fill: false,
+                    borderColor: '#3bd3e',
+                    label: 'Budget Goal'
+                }
+            ]
+        };
 
-    // Get Reference to Budget Document
-    const usersDofRef = db.collection('users').doc(token);
-
-    // Get Budget Document
-    const usersDoc = await usersDofRef.get();
-    // Get Snapshot of Categories
-    const categoriesSnapshot = await usersDofRef.collection('categories').get();
-    // Get Snapshot of All Expenses
-    const expensesSnapshot = await usersDofRef.collection('expenses').get();  
-
-    // Fill Pie Chart Data and Add Category Datasets to Bar Chart
-    categoriesSnapshot.forEach((doc) => {
-        const categoryData = doc.data();
-        pieData.labels.push(categoryData.name);
-        pieData.datasets[0].data.push(categoryData.price);
-        pieData.datasets[0].backgroundColor.push(randomColor({ luminosity: 'light', format: 'rgba', alpha: 0.8 }));
-
-        const barCategory = {
-            label: '',
-            backgroundColor: randomColor({ luminosity: 'light', format: 'rgba', alpha: 0.8 }),
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+        const barData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: []
         }
 
-        barCategory.label = categoryData.name;
-        barData.datasets.push(barCategory)
-    });
+        // Get Reference to Budget Document
+        const usersDofRef = db.collection('users').doc(token);
 
-    // Add Budget Goal to Line Chart Data
-    const budgetTotal = usersDoc.data().total;
-    for (const [i, month] of lineData.labels.entries()) {
-        lineData.datasets[1].data.push(budgetTotal);
-    }
+        // Get Budget Document
+        const usersDoc = await usersDofRef.get();
+        // Get Snapshot of Categories
+        const categoriesSnapshot = await usersDofRef.collection('categories').get();
+        // Get Snapshot of All Expenses
+        const expensesSnapshot = await usersDofRef.collection('expenses').get();  
 
-    // Fill Line Chart Data
-    expensesSnapshot.forEach((expense) => {
-        const expenseData = expense.data();
+        // Fill Pie Chart Data and Add Category Datasets to Bar Chart
+        categoriesSnapshot.forEach((doc) => {
+            const categoryData = doc.data();
+            pieData.labels.push(categoryData.name);
+            pieData.datasets[0].data.push(categoryData.price);
+            pieData.datasets[0].backgroundColor.push(randomColor({ luminosity: 'light', format: 'rgba', alpha: 0.8 }));
+
+            const barCategory = {
+                label: '',
+                backgroundColor: randomColor({ luminosity: 'light', format: 'rgba', alpha: 0.8 }),
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] 
+            }
+
+            barCategory.label = categoryData.name;
+            barData.datasets.push(barCategory)
+        });
+
+        // Add Budget Goal to Line Chart Data
+        const budgetTotal = usersDoc.data().total;
         for (const [i, month] of lineData.labels.entries()) {
-            if (month === expenseData.month) {
-                lineData.datasets[0].data[i] += expenseData.amount;
-                for(const category of barData.datasets) {
-                    if (expenseData.category === category.label) {
-                        category.data[i] += expenseData.amount;
+            lineData.datasets[1].data.push(budgetTotal);
+        }
+
+        // Fill Line Chart Data
+        expensesSnapshot.forEach((expense) => {
+            const expenseData = expense.data();
+            for (const [i, month] of lineData.labels.entries()) {
+                if (month === expenseData.month) {
+                    lineData.datasets[0].data[i] += expenseData.amount;
+                    for(const category of barData.datasets) {
+                        if (expenseData.category === category.label) {
+                            category.data[i] += expenseData.amount;
+                        }
                     }
                 }
             }
-        }
-    });
+        });
 
-    res.json({
-        pieData: pieData,
-        lineData: lineData,
-        barData: barData
-    });
+        res.json({
+            pieData: pieData,
+            lineData: lineData,
+            barData: barData
+        });
+    }
+    catch {
+        console.log("Error");
+    }
+    
 });
 
 app.post('/api/budget/fetch/all', async (req, res) => {
-    const { token } = req.body;
+    try {
+        const { token } = req.body;
 
-    const budgetData = {
-        total: 0,
-        categories: []
-    }
-
-    const usersDofRef = db.collection('users').doc(token);
-    const usersDoc = await usersDofRef.get();
-    const categoriesSnapshot = await usersDofRef.collection('categories').get();
-
-    budgetData.total = usersDoc.data().total;
-
-    categoriesSnapshot.forEach((doc) => {
-        const categoryData = doc.data();
-        const category = {
-            name: '',
-            price: 0
+        const budgetData = {
+            total: 0,
+            categories: []
         }
-        category.name = categoryData.name;
-        category.price = categoryData.price;
-        budgetData.categories.push(category);
-    });
-
-    console.log(budgetData)
-
-    res.json(budgetData);
+    
+        const usersDofRef = db.collection('users').doc(token);
+        const usersDoc = await usersDofRef.get();
+        const categoriesSnapshot = await usersDofRef.collection('categories').get();
+    
+        budgetData.total = usersDoc.data().total;
+    
+        categoriesSnapshot.forEach((doc) => {
+            const categoryData = doc.data();
+            const category = {
+                name: '',
+                price: 0
+            }
+            category.name = categoryData.name;
+            category.price = categoryData.price;
+            budgetData.categories.push(category);
+        });
+    
+        console.log(budgetData)
+    
+        res.json(budgetData);    
+    }
+    catch {
+        console.log("Error")
+    }
 });
 
 app.post('/api/budget/update', async (req, res) => {
