@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const randomColor = require('randomcolor');
 const budgetModel = require('./models/budget_schema');
 const app = express();
-const port = 3000;
+const port = 8080;
 
 const firebaseConfig = {
     apiKey: "AIzaSyA54eWMz_RrPoxEOvUz-F_if1Hg_OoKvTs",
