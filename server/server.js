@@ -146,8 +146,10 @@ app.post('/api/budget/fetch/all', async (req, res) => {
             total: 0,
             categories: []
         }
+
+
     
-        const usersDofRef = db.collection('users').doc('gZa2s22tEMZ3CpmR63rX');
+        const usersDofRef = db.collection('users').doc(token);
         const usersDoc = await usersDofRef.get();
         const categoriesSnapshot = await usersDofRef.collection('categories').get();
     
@@ -236,6 +238,17 @@ app.post('/api/signup', async (req, res) => {
                 console.log(token)
                 db.collection('users').doc(token).set({
                     total: 0
+                })
+
+                db.collection('users').doc(token).collection('categories').add({
+                    name: 'N/A',
+                    price: 0
+                })
+
+                db.collection('users').doc(token).collection('expenses').add({
+                    amount: 0,
+                    category: 'N/A',
+                    month: 'January'
                 })
 
                 res.json({ 
