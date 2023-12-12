@@ -11,6 +11,12 @@ const budgetModel = require('./models/budget_schema');
 const app = express();
 const port = 3000;
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    next();
+})
+
 const firebaseConfig = {
     apiKey: "AIzaSyA54eWMz_RrPoxEOvUz-F_if1Hg_OoKvTs",
     authDomain: "itis-5166-final-project.firebaseapp.com",
@@ -263,5 +269,5 @@ app.post('/api/login', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`API served at http://localhost:${port}`);
+    console.log(`API served at http://monkfish-app-3ps63.ondigitalocean.app`);
 });
