@@ -38,7 +38,7 @@ class DashboardPage extends React.Component {
 getBudget = () => {
     const token = localStorage.getItem('jwt');
 
-    axios.post('http://monkfish-app-3ps63.ondigitalocean.app/api/budget/fetch', { token })
+    axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/budget/fetch', { token })
     .then(response => {
         this.setState({ pieChartData: response.data.pieData });
         this.setState({ lineChartData: response.data.lineData })
