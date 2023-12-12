@@ -79,7 +79,7 @@ app.post('/api/budget/fetch', async (req, res) => {
         }
 
         // Get Reference to Budget Document
-        const usersDofRef = db.collection('users').doc('gZa2s22tEMZ3CpmR63rX');
+        const usersDofRef = db.collection('users').doc(token);
 
         // Get Budget Document
         const usersDoc = await usersDofRef.get();

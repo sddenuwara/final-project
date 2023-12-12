@@ -68,8 +68,7 @@ class ConfigurePage extends React.Component {
     });
   }
 
-  configure = async (e) => {
-    e.preventDefault();
+  configure = async () => {
     const token = localStorage.getItem('jwt');
     const updatedBudget = this.state.budgetData;
     await axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/budget/update', { token, updatedBudget})
