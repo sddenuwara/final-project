@@ -68,10 +68,11 @@ class ConfigurePage extends React.Component {
     });
   }
 
-  configure = () => {
+  configure = async (e) => {
+    e.preventDefault();
     const token = localStorage.getItem('jwt');
     const updatedBudget = this.state.budgetData;
-    axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/budget/update', { token, updatedBudget})
+    await axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/budget/update', { token, updatedBudget})
       .then(response => {
         if (response && response.data && response.data.success) {
           useNavigate('/dashboard')
@@ -79,7 +80,8 @@ class ConfigurePage extends React.Component {
       })
   }
 
-  getBudget = () => {
+  getBudget = async (e) => {
+    e.preventDefault();
     const token = localStorage.getItem('jwt');
     axios.post('https://monkfish-app-3ps63.ondigitalocean.appapi/budget/fetch/all', { token })
       .then(response => {
