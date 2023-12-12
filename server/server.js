@@ -35,6 +35,8 @@ const db = admin.firestore();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.options('*', cors());
+
 app.get('/hello', (req, res) => {
     res.send('Hello World!');
 });
