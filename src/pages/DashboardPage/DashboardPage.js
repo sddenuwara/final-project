@@ -35,8 +35,7 @@ class DashboardPage extends React.Component {
     }
 }
 
-getBudget = async (e) => {
-    e.preventDefault();
+getBudget = async () => {
 
     const token = localStorage.getItem('jwt');
 
