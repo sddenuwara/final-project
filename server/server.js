@@ -33,7 +33,8 @@ const db = admin.firestore();
 
 app.use(cors({
     origin: 'https://seahorse-app-sxjhm.ondigitalocean.app',
-    methods: ['GET', 'POST']
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
