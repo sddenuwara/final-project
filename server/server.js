@@ -32,7 +32,7 @@ if (!admin.apps.length) {
 const db = admin.firestore();
 
 app.use(cors({
-    origin: 'seahorse-app-sxjhm.ondigitalocean.app',
+    origin: 'https://seahorse-app-sxjhm.ondigitalocean.app',
     methods: ['GET', 'POST']
 }));
 app.use(bodyParser.json());
