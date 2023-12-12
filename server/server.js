@@ -79,7 +79,7 @@ app.post('/api/budget/fetch', async (req, res) => {
         }
 
         // Get Reference to Budget Document
-        const usersDofRef = db.collection('users').doc(token);
+        const usersDofRef = db.collection('users').doc('gZa2s22tEMZ3CpmR63rX');
 
         // Get Budget Document
         const usersDoc = await usersDofRef.get();
@@ -147,7 +147,7 @@ app.post('/api/budget/fetch/all', async (req, res) => {
             categories: []
         }
     
-        const usersDofRef = db.collection('users').doc(token);
+        const usersDofRef = db.collection('users').doc('gZa2s22tEMZ3CpmR63rX');
         const usersDoc = await usersDofRef.get();
         const categoriesSnapshot = await usersDofRef.collection('categories').get();
     
