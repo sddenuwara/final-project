@@ -4,12 +4,16 @@ const { getAuth, signInWithEmailAndPassword } = require('firebase/auth')
 const credentials = require("./itis-5166-final-project-firebase-adminsdk-t1wv7-2f84aaf574.json");
 
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const randomColor = require('randomcolor');
 const budgetModel = require('./models/budget_schema');
 const app = express();
 const port = 3000;
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'https://seahorse-app-sxjhm.ondigitalocean.app');
+    next();
+})
 
 const firebaseConfig = {
     apiKey: "AIzaSyA54eWMz_RrPoxEOvUz-F_if1Hg_OoKvTs",
@@ -31,11 +35,6 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-app.use(cors({
-    origin: 'https://seahorse-app-sxjhm.ondigitalocean.app',
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
