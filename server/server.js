@@ -12,7 +12,7 @@ const app = express();
 const port = 3000;
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://seahorse-app-sxjhm.ondigitalocean.app');
     res.setHeader('Access-Control-Allow-Headers', '*');
     next();
 })
