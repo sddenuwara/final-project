@@ -8,9 +8,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const signup = async (e) => {
-    e.preventDefault();
-
+  const signup = async () => {
     await axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/signup', { email, password })
       .then(response => {
         if (response && response.data && response.data.success) {
