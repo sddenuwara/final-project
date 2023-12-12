@@ -12,7 +12,7 @@ const LoginPage = () => {
   const login = async (e) => {
     e.preventDefault();
 
-    axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/login', { email, password })
+    await axios.post('https://monkfish-app-3ps63.ondigitalocean.app/api/login', { email, password })
       .then(response => {
         if (response && response.data && response.data.success) {
           const token = response.data.token;
