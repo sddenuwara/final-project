@@ -2,11 +2,11 @@ const admin = require('firebase-admin');
 const { initializeApp } = require('firebase/app')
 const { getAuth, signInWithEmailAndPassword } = require('firebase/auth')
 const credentials = require("./itis-5166-final-project-firebase-adminsdk-t1wv7-2f84aaf574.json");
+const cors = require('cors');
 
 const express = require('express');
 const bodyParser = require('body-parser');
 const randomColor = require('randomcolor');
-const budgetModel = require('./models/budget_schema');
 const app = express();
 const port = 3000;
 
@@ -248,6 +248,7 @@ app.post('/api/login', (req, res) => {
                 const uid = user.uid;
                 admin.auth().createCustomToken(uid)
                         .then((token) => {
+                            res.status(200);
                             res.json({ 
                                 success: true,
                                 err: null,
@@ -265,5 +266,5 @@ app.post('/api/login', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`API served at http://monkfish-app-3ps63.ondigitalocean.app`);
+    console.log(`API served at https://monkfish-app-3ps63.ondigitalocean.app`);
 });
