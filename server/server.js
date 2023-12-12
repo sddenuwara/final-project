@@ -11,12 +11,6 @@ const budgetModel = require('./models/budget_schema');
 const app = express();
 const port = 3000;
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://seahorse-app-sxjhm.ondigitalocean.app');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    next();
-})
-
 const firebaseConfig = {
     apiKey: "AIzaSyA54eWMz_RrPoxEOvUz-F_if1Hg_OoKvTs",
     authDomain: "itis-5166-final-project.firebaseapp.com",
@@ -37,7 +31,10 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-app.use(cors());
+app.use(cors({
+    origin: 'seahorse-app-sxjhm.ondigitalocean.app',
+    methods: ['GET', 'POST']
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
